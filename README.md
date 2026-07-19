@@ -1,5 +1,7 @@
 # API GeoCEP
 
+🇧🇷 Português | [🇺🇸 English](./README_EN.md)
+
 Uma API robusta e de alta performance desenvolvida com **FastAPI** para consultar e enriquecer dados de enderecos e localidades geograficas, baseada fortemente na arquitetura de software **Domain-Driven Design (DDD)**.
 
 Este projeto busca trazer resiliencia as aplicacoes utilizando a estrategia **API-First com Fallback e Upsert**. Ele consome, sincroniza e armazena os metadados oficias do **IBGE** (Regioes, Estados, Mesorregioes, Municipios, etc) no banco de dados local para enriquecer as consultas de CEP com as conhecidas *Natural Keys* (codigo M49 e codigos do IBGE).
@@ -47,7 +49,7 @@ O projeto foi refatorado para manter uma rigida separacao de responsabilidades:
 >
 > **Nota Tecnica (Cache Negativo de Autenticacao):** Atualmente, o Middleware de Auditoria aplica cache local em memoria (LRU) apenas para sistemas *autorizados* para evitar bater no banco (PostgreSQL) a cada requisicao. Porem, nao existe um "Cache Negativo" para falhas consecutivas. Uma melhoria futura de *Hardening* seria registrar acessos negados no Redis, barrando floods de brute-force ou chaves invalidas na borda, aliviando a CPU.
 >
-> **Nota Tecnica (CORS / Testes Automatizados):** A logica de parsing da variavel de ambiente `ALLOWED_ORIGINS` no `api/main.py` esta validada manualmente (via curl, na Camada 6 desta auditoria), mas nao possui teste automatizado dedicado. O teste `test_cors_preflight_without_auth` usa um mock direto na funcao `is_allowed_origin` da biblioteca subjacente para garantir resiliencia de ambiente, em vez de exercitar o nosso parsing real do `.env`.
+> **Nota Tecnica (CORS / Testes Automatizados):** A logica de parsing da variavel de ambiente `ALLOWED_ORIGINS` no `api/main.py` esta validada manualmente (via curl simulando um preflight real de navegador), mas nao possui teste automatizado dedicado. O teste `test_cors_preflight_without_auth` usa um mock direto na funcao `is_allowed_origin` da biblioteca subjacente para garantir resiliencia de ambiente, em vez de exercitar o nosso parsing real do `.env`.
 >
 > **Nota Tecnica (Mutation Testing):** Para garantir o maximo rigor da suite de testes unitarios contra falsos-positivos de cobertura de codigo, uma das evolucoes planejadas e a incorporacao do `mutmut` para Teste de Mutacao. Em ambientes Windows via WSL, a execucao pode exigir configuracoes especificas de *sys_ptrace* ou isolamento, motivo pelo qual essa melhoria foi protelada.
 
