@@ -9,7 +9,23 @@ client = TestClient(app)
 
 @pytest.fixture(autouse=True)
 def servico_cache_mock(monkeypatch):
-    """Mock do cache_service simulando o Redis em memoria para evitar erro de Event Loop do TestClient."""
+    """
+    Mock do cache_service simulando o Redis em memoria para evitar erro de Event Loop do TestClient.
+
+    Parametros:
+        monkeypatch: Fixture do pytest usada para aplicar os patches.
+
+    Gera:
+        ServicoCache: A instancia mockada do cache_service.
+
+    Mocks the cache_service simulating Redis in memory to avoid a TestClient Event Loop error.
+
+    Args:
+        monkeypatch: The pytest fixture used to apply the patches.
+
+    Yields:
+        ServicoCache: The mocked cache_service instance.
+    """
     from core.cache import cache_service
     import hashlib
     hash_esperado = hashlib.sha256(b"test_key").hexdigest()

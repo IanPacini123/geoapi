@@ -10,7 +10,10 @@ logging.basicConfig(level=logging.INFO, format="[%(asctime)s] %(message)s")
 logger = logging.getLogger(__name__)
 
 def sleep_until_midnight():
-    """Calcula os segundos restantes ate a proxima meia-noite e dorme."""
+    """
+    Calcula os segundos restantes ate a proxima meia-noite e dorme.
+    Calculates the remaining seconds until the next midnight and sleeps.
+    """
     now = datetime.datetime.now()
     tomorrow = now + datetime.timedelta(days=1)
     midnight = datetime.datetime(
@@ -22,7 +25,10 @@ def sleep_until_midnight():
     time.sleep(seconds_to_wait)
 
 def wait_for_migrations():
-    """Trava a execucao inicial ate que o schema oficial do banco seja criado pelo Alembic."""
+    """
+    Trava a execucao inicial ate que o schema oficial do banco seja criado pelo Alembic.
+    Blocks initial execution until the official database schema is created by Alembic.
+    """
     logger.info("Aguardando as migracoes do banco (Alembic) finalizarem...")
     while True:
         try:

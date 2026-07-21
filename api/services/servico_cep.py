@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 class ServicoCep:
     """
     Servico responsavel por buscar e enriquecer dados de CEP usando o padrao Cache-aside.
-    Service responsible for fetching and enriching CEP data using a Cache-aside padrao.
+    Service responsible for fetching and enriching CEP data using the Cache-aside pattern.
     """
     def __init__(self, db: Session):
         self.db = db
@@ -25,6 +25,16 @@ class ServicoCep:
         """
         Busca dados de CEP em APIs externas e atualiza o cache local (upsert).
         Se as APIs externas falharem, faz fallback para o banco de dados local.
+
+        Parametros:
+            cep_bruto (str): O CEP bruto, ainda sem formatacao.
+
+        Retorna:
+            Optional[Dict[str, Any]]: Um dicionario com os dados de CEP enriquecidos, ou None se nao encontrado.
+
+        Levanta:
+            ValueError: Se o CEP for invalido (nao possuir 8 digitos).
+
         Fetches CEP data from external APIs and updates the local cache (upsert).
         If external APIs fail, falls back to the local database.
 
@@ -33,7 +43,7 @@ class ServicoCep:
 
         Returns:
             Optional[Dict[str, Any]]: A dictionary with the enriched CEP data, or None if not found.
-        
+
         Raises:
             ValueError: If the CEP is invalid (not 8 digits).
         """
@@ -132,7 +142,20 @@ class ServicoCep:
     def _para_dicionario(self, modelo_cep: Cep) -> Dict[str, Any]:
         """
         Converte uma instancia do modelo Cep para um dicionario.
+
+        Parametros:
+            modelo_cep (Cep): A instancia do modelo Cep a ser convertida.
+
+        Retorna:
+            Dict[str, Any]: Um dicionario com os dados do CEP.
+
         Converts a Cep model instance to a dictionary.
+
+        Args:
+            modelo_cep (Cep): The Cep model instance to convert.
+
+        Returns:
+            Dict[str, Any]: A dictionary with the CEP data.
         """
         return {
             "cep": modelo_cep.cep,

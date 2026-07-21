@@ -11,6 +11,10 @@ def test_cors_preflight_without_auth(mock_cors):
     Testa se uma requisicao preflight OPTIONS do CORS passa pelo AuditoriaMiddleware
     sem exigir autenticacao (sem os headers X-System-ID e X-API-Key) e retorna
     os cabecalhos corretos do CORS para uma origem permitida.
+
+    Tests whether a CORS preflight OPTIONS request passes through AuditoriaMiddleware
+    without requiring authentication (without the X-System-ID and X-API-Key headers) and
+    returns the correct CORS headers for an allowed origin.
     """
     headers = {
         "Origin": "http://localhost:3000",
@@ -41,6 +45,9 @@ async def test_cors_preflight_rate_limit(mock_get_redis, mock_cors):
     """
     Testa se o limite de taxa customizado para preflight OPTIONS bloqueia requisicoes
     apos o limite ser excedido.
+
+    Tests whether the custom rate limit for preflight OPTIONS requests blocks requests
+    once the limit has been exceeded.
     """
     limit_str = settings.RATE_LIMIT_OPTIONS.split("/")[0]
     limit = int(limit_str) if limit_str.isdigit() else 300

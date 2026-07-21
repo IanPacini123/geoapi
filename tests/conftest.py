@@ -22,10 +22,21 @@ TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engin
 @pytest.fixture(scope="function")
 def db_session_memory():
     """
-    Fixture que cria as tabelas no SQLite em memoria, 
+    Fixture que cria as tabelas no SQLite em memoria,
     prove a sessao para o teste, e depois destroi as tabelas.
     O escopo "function" garante que o banco nasce e morre para cada teste,
     garantindo total isolamento de estado.
+
+    Gera:
+        Session: A sessao de banco de dados SQLite em memoria para uso no teste.
+
+    Fixture that creates the tables in the in-memory SQLite,
+    provides the session for the test, and then drops the tables.
+    The "function" scope guarantees the database is born and dies for each test,
+    ensuring total state isolation.
+
+    Yields:
+        Session: The in-memory SQLite database session for use in the test.
     """
     Base.metadata.create_all(bind=engine_test)
     session = TestingSessionLocal()

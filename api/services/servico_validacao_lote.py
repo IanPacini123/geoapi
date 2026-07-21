@@ -14,13 +14,21 @@ class ServicoValidacaoLote:
     def validar(self, carga_dados: BatchValidationRequest) -> Tuple[bool, List[str]]:
         """
         Valida multiplos codigos IBGE simultaneamente usando operacoes de conjuntos.
+
+        Parametros:
+            carga_dados (BatchValidationRequest): A requisicao contendo os arrays de codigos IBGE.
+
+        Retorna:
+            Tuple[bool, List[str]]: Um booleano indicando se todos os codigos sao validos,
+                                    e uma lista de mensagens de erro.
+
         Validates multiple IBGE codes simultaneously using set operations.
-        
+
         Args:
             carga_dados (BatchValidationRequest): The request containing arrays of IBGE codes.
-            
+
         Returns:
-            Tuple[bool, List[str]]: A boolean indicating if all codes are valid, 
+            Tuple[bool, List[str]]: A boolean indicating if all codes are valid,
                                     and a list of error messages.
         """
         mensagens_erro = []

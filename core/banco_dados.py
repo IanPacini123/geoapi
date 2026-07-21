@@ -16,8 +16,12 @@ Base = declarative_base()
 def obter_bd() -> Generator[Session, None, None]:
     """
     Injecao de dependencia para sessao de banco de dados.
+
+    Gera:
+        Session: Um objeto de sessao de banco de dados SQLAlchemy.
+
     Dependency injection for database session.
-    
+
     Yields:
         Session: A SQLAlchemy database session object.
     """

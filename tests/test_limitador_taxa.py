@@ -27,25 +27,37 @@ def override_db_globally(db_session_memory, monkeypatch):
 
 
 def test_no_headers_blocked():
-    """ Sem nenhum cabecalho """
+    """
+    Sem nenhum cabecalho.
+    No headers at all.
+    """
     resp = client.get("/api/localidades/ufs")
     assert resp.status_code == 401
     assert "X-System-ID" in resp.json()["detail"]
 
 def test_missing_x_system_id_blocked():
-    """ Apenas X-API-Key sem X-System-ID """
+    """
+    Apenas X-API-Key sem X-System-ID.
+    Only X-API-Key without X-System-ID.
+    """
     resp = client.get("/api/localidades/ufs", headers={"X-API-Key": "some_key"})
     assert resp.status_code == 401
     assert "X-System-ID" in resp.json()["detail"]
 
 def test_missing_api_key_blocked():
-    """ Apenas X-System-ID sem X-API-Key """
+    """
+    Apenas X-System-ID sem X-API-Key.
+    Only X-System-ID without X-API-Key.
+    """
     resp = client.get("/api/localidades/ufs", headers={"X-System-ID": "sys_a_untrusted"})
     assert resp.status_code == 401
     assert "X-API-Key ausente ou invalida" in resp.json()["detail"]
 
 def test_invalid_api_key_blocked(monkeypatch):
-    """ Chave invalida para um sistema existente """
+    """
+    Chave invalida para um sistema existente.
+    Invalid key for an existing system.
+    """
     from core.cache import cache_service
     
     async def obter_cache_mock(key):
@@ -59,7 +71,10 @@ def test_invalid_api_key_blocked(monkeypatch):
     assert "X-API-Key ausente ou invalida" in resp.json()["detail"]
 
 def test_revoked_api_key_blocked(monkeypatch):
-    """ Chave revogada (Nao existe no DB nem no Cache) """
+    """
+    Chave revogada (nao existe no DB nem no Cache).
+    Revoked key (does not exist in the DB nor in the Cache).
+    """
     from core.cache import cache_service
     
     async def obter_cache_mock(key):
@@ -86,6 +101,8 @@ def test_revoked_api_key_blocked(monkeypatch):
 def test_limitador_taxa_trusted_isolated_quota(monkeypatch):
     """
     Sistemas COM API Key valida ganham cota separada (IP:System).
+
+    Systems WITH a valid API Key get a separate quota (IP:System).
     """
     from core.cache import cache_service
     
@@ -137,6 +154,9 @@ def test_limitador_taxa_cep_especifico_30_por_minuto(monkeypatch):
     """
     Testa se o limitador de taxa especifico do CEP (RATE_LIMIT_CEP)
     funciona corretamente e e independente do GLOBAL.
+
+    Tests whether the CEP-specific rate limiter (RATE_LIMIT_CEP)
+    works correctly and is independent from the GLOBAL one.
     """
     from core.cache import cache_service
     
